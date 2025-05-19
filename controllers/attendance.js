@@ -9,12 +9,6 @@ exports.checkIn = async (req, res) => {
     const now = new Date();
     const checkInTime = now.toTimeString().split(' ')[0];
 
-    // Prevent check-in after 11:00 AM
-    const hour = now.getHours();
-    if (hour >= 11) {
-      return res.status(400).json({ success: false, message: 'Check-in not allowed after 11:00 AM.' });
-    }
-
     // Find today's attendance
     let attendance = await Attendance.findOne({ user: userId, date: today });
     if (attendance && attendance.checkIn) {

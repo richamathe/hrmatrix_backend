@@ -37,6 +37,7 @@ exports.protect = async (req, res, next) => {
 
     next();
   } catch (err) {
+    console.error('Auth Error:', err);
     return res.status(401).json({
       success: false,
       message: 'Not authorized to access this route'
@@ -47,7 +48,16 @@ exports.protect = async (req, res, next) => {
 // Grant access to specific roles
 exports.authorize = (...roles) => {
   return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not authenticated'
+      });
+    }
+
     if (!roles.includes(req.user.role)) {
+      console.log('User role:', req.user.role);
+      console.log('Required roles:', roles);
       return res.status(403).json({
         success: false,
         message: `User role ${req.user.role} is not authorized to access this route`

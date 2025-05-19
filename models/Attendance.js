@@ -32,7 +32,7 @@ const AttendanceSchema = new mongoose.Schema({
 AttendanceSchema.pre('save', function(next) {
   if (this.checkIn) {
     const [hour] = this.checkIn.split(':').map(Number);
-    if (hour >= 11) {
+    if (hour >= 12) {
       this.status = 'Late';
     } else {
       this.status = 'Present';

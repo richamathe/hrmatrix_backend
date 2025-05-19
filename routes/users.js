@@ -21,13 +21,13 @@ router.get('/all', getAllEmployees);
 router.get('/birthdays', getBirthdaysThisMonth);
 router.get('/department-stats', getDepartmentStats);
 
-// Routes only accessible by HR
+// Routes only accessible by HR and Admin
 router.route('/')
-  .get(authorize('hr'), getUsers);
+  .get(authorize('hr', 'admin'), getUsers);
 
 router.route('/:id')
-  .get(authorize('hr'), getUser)
-  .put(authorize('hr'), updateUser)
-  .delete(authorize('hr'), deleteUser);
+  .get(authorize('hr', 'admin'), getUser)
+  .put(authorize('hr', 'admin'), updateUser)
+  .delete(authorize('hr', 'admin'), deleteUser);
 
 module.exports = router;
